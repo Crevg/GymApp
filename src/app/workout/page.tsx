@@ -1,10 +1,11 @@
 import { db } from "../../../public/api/api";
+import dynamic from 'next/dynamic'
 import { HardCodedProfiles1, HardCodedProfiles2 } from "../../../public/data/hardcodeProfiles";
 import { exercises } from "../../../public/data/muscleGroups";
 import { DBProfile, Routine } from "../../../public/types";
 import { GetCurrentProfile } from "../helpers/getCurrentProfileHelper";
 import { getRoutineAndCurrentDay } from "../helpers/getPreviousDayHelper";
-import WorkoutSessionComponent from "./workoutSessionComponent";
+const WorkoutSessionComponent = dynamic( () => import("./workoutSessionComponent"), { ssr: false })
 
 export default async function WorkoutPage() {
 
@@ -37,8 +38,6 @@ export default async function WorkoutPage() {
         const secondaryProfileID = GetCurrentProfile(jsonProfile, HardCodedProfiles2);
         secondaryProfile = jsonProfile[String(secondaryProfileID)];
         routineIDSecondary = secondaryProfile.routine;
-
-        console.log({secondaryProfileID, secondaryProfile, routineIDSecondary})
 
         let routineAndDaySecondary = await getRoutineAndCurrentDay(routineIDSecondary, secondaryProfile);
         currentDayIndexSecondary = routineAndDaySecondary.currentDayIndex;

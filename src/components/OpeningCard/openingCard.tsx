@@ -30,7 +30,7 @@ export default function OpeningCard({ title, children, height, setHeight}: Props
     }
 
     useEffect( () => {
-        console.log("NEW height", ref.current?.scrollHeight);
+        //console.log("New height", ref.current?.scrollHeight);
     }, [ref.current?.clientHeight])
 
 
