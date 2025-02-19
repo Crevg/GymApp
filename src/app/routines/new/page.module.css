@@ -1,0 +1,55 @@
+.routineDaysContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 80%;
+    margin-bottom: 2rem;
+}
+
+.routineDayComponent {
+    width: 80%;
+}
+
+.dayInput { 
+    width: 100%;
+    border: none;
+    background-color: var(--inputBG);
+    font-size: large;
+    padding: 0.5rem;
+}
+
+.dayName {
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.dayInputContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.routineNameContainer {
+    width: 80%;
+    margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 1000px) {
+    
+.routineDayComponent {
+    width: 30%;
+}
+
+.routineDaysContainer {
+    flex-direction: row;
+}
+
+.routineNameContainer {
+    width: 50%;
+}
+}

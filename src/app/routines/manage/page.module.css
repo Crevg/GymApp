@@ -1,0 +1,18 @@
+.mainArea {
+    margin-bottom: 2rem;
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.selectCard {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.selectCardItem { 
+    margin-right: auto;
+}

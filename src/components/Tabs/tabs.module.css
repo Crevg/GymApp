@@ -1,0 +1,35 @@
+.tabs {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 0;
+    justify-content: center;
+    align-items: baseline;
+    border-collapse: collapse;
+    position: relative;
+}
+
+.tab {
+    width: 100%;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    box-shadow: none;
+    border-collapse: collapse;
+    color: gray;
+    border-bottom: 2px solid black;
+    
+}
+
+.activeTab {
+    cursor: auto;
+    font-weight: bold;
+    border-bottom: none;
+    overflow:visible;
+    border-collapse: collapse;
+    position: relative;
+    color: black;
+    border: 2px solid black;
+    border-bottom: none;
+}
+

@@ -1,0 +1,12 @@
+.nextWorkoutLabel {
+    font-size: small;
+    padding-left: 50%;
+}
+
+
+@media screen and (min-width: 1000px){
+        
+    .nextWorkoutLabel {
+        padding-left: 15%;
+    }
+}

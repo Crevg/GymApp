@@ -1,0 +1,11 @@
+.card {
+    border: 1px solid var(--cardsBorder);
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 4px 4px 4px;
+}
+
+.clickable:hover {
+    cursor: pointer;
+    box-shadow: 2px 2px 2px;
+}

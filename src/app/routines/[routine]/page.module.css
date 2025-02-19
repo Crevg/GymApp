@@ -1,0 +1,46 @@
+.dayCard {
+    transition: height 0.25s;
+    border: 1px solid black;
+    box-shadow: 5px 5px 5px;
+    cursor: pointer;
+    width: 25%;
+    text-align: center;
+    overflow: hidden;
+}
+
+.dayCardTitle {
+    padding: 1rem;
+    border-bottom: 1px solid black;
+    display: flex;
+}
+
+.dayCardTitleItem {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.dayCardBody {
+    padding-top: 2rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    padding-bottom: 1rem;
+    cursor: auto;
+}
+
+.exerciseInput { 
+    width: 100%;
+    border: none;
+    background-color: var(--inputBG);
+    text-align: center;
+    font-size: large;
+    padding: 0.5rem;
+}
+
+.exerciseInputContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    margin: auto 1rem;
+}

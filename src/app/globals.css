@@ -1,0 +1,128 @@
+html {
+    --cardsBorder: black;
+    --inputBG: rgb(221, 218, 218);
+}
+
+body {
+    position: relative;
+}
+
+.main {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+
+.centeredFlex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+* {
+    box-sizing: border-box;
+    user-select: none;
+}
+
+.mainButton {
+    min-width: 80%;
+    max-width: 80%;
+    text-align: center;
+}
+
+
+.navigationButton {
+    border-radius: 15%;
+    padding: 1.5rem;
+    box-shadow: 0;
+    font-size: large;
+    cursor: pointer;
+    border: none;
+}
+
+
+.navigationButtonSmall {
+    border-radius: 15%;
+    padding: 0.5rem;
+    box-shadow: 0;
+    font-size: small;
+    cursor: pointer;
+    border: none;
+    margin: auto;
+}
+
+.backIcon {
+    position: absolute;
+    top: 25px;
+    left: 10px;
+    cursor: pointer;
+    width: 20%;
+}
+
+.backIconFA {
+    width: auto;
+    height: 40px;
+}
+
+.homeIconFA {
+    width: auto;
+    height: 18px;
+}
+
+.settingIconFA {
+    width: auto;
+    height: 18px;
+}
+
+.homeIcon {
+    position: absolute;
+    top: 32px;
+    right: 10px;
+    cursor: pointer;
+    width: 10%;
+}
+
+.settingIcon {
+    position: absolute;
+    top: 32px;
+    right: -15px;
+    cursor: pointer;
+    width: 10%;
+}
+
+
+
+@media screen and (min-width: 1000px) {
+    .mainButton {
+        min-width: 25%;
+    }
+
+    body {
+        width: 80%;
+        margin: auto;
+        margin-top: 2%;
+        padding-bottom: 2%;
+
+    }
+
+    .settingIcon {
+        top: 25px;
+    }
+
+    .homeIcon {
+        top: 25px;
+        left: 70px;
+    }
+
+    .homeIconFA {
+        width: auto;
+        height: 40px;
+    }
+
+    .settingIconFA {
+        width: auto;
+        height: 40px;
+
+    }
+}

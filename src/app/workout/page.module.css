@@ -1,0 +1,28 @@
+.workoutInfoContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0;
+}
+
+.workoutValueInput {
+    width: 50px;
+}
+
+.WorkoutSessionContainer {
+    width: 100%;
+    border: none;
+    background-color: red;
+    box-shadow: 2px 2px 2px black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    gap: 1em;
+    padding: 2% 0;
+
+}
+

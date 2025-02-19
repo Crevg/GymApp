@@ -1,0 +1,41 @@
+.openingCardTitle {
+    padding: 1rem;
+    border-bottom: 1px solid black;
+    display: flex;
+}
+
+.openingCardTitleItem {
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.openingCardBody {
+    padding-top: 2rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    padding-bottom: 1rem;
+    cursor: auto;
+}
+
+.openingCard {
+    transition: height 0.25s;
+    border: 1px solid black;
+    box-shadow: 5px 5px 5px;
+    cursor: pointer;
+    width: 80%;
+    text-align: center;
+    overflow: hidden;
+}
+
+.openingCard:hover {
+    cursor: pointer;
+    box-shadow: 2px 2px 2px;
+}
+
+@media screen and (min-width: 1000px) {
+    .openingCard {
+        width: 25%;
+    }
+
+}
