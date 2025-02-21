@@ -8,7 +8,6 @@ import { HardCodedProfiles1, HardCodedProfiles2 } from "../../public/data/hardco
 
 // Save a new routine layout 
 export async function saveRoutine(name: string, days: Array<RoutineDay>) {
-    console.log({days});
     const routine: Routine = {
         name: name,
         days: days
@@ -21,7 +20,6 @@ export async function saveRoutine(name: string, days: Array<RoutineDay>) {
     );
 
     const saveRoutinesJson = await saveRoutinesRes.json();
-    console.log({ saveRoutinesJson });
 
     const routinesRes = await fetch(`${db}routines.json`, {
         method: "GET",
@@ -53,7 +51,6 @@ export async function editRoutine(routine: Routine, routineId: string) {
         body: JSON.stringify(routine)
     })
 
-    console.log({ res });
     redirect("/", RedirectType.push)
 }
 
@@ -92,9 +89,6 @@ export async function changeCurrentRoutine(routineIndex: number, secondaryRoutin
     const body: any = {}
     body[`${currentProfileID}/routine`] = routineId;
     if (secondaryProfileID) body[`${secondaryProfileID}/routine`] = secondaryRoutineId;
-
-
-    console.log({ currentProfileID, secondaryProfileID, body })
 
     await fetch(`${db}profile.json`, {
         method: "PATCH",
@@ -212,8 +206,6 @@ export async function createNewProfile(profileName: string) {
             body: JSON.stringify(jsonBody)
         });
         const json = await newSession.json()
-        console.log({ json })
-
     }
     catch (e) {
         console.log(e)
@@ -222,22 +214,19 @@ export async function createNewProfile(profileName: string) {
     redirect('/', RedirectType.push)
 }
 
-export async function updateCurrentDay(dayIndex: number) {
+export async function updateCurrentDay(dayIndex: number, daySecIndex?: number) {
 
      /* Get profiles id */
      const readProfile = await fetch(`${db}/profile.json`, { method: 'GET', cache: 'no-cache' })
      const jsonProfile = await readProfile.json();
 
      const currentProfileID = GetCurrentProfile(jsonProfile, HardCodedProfiles1);
-     const secondaryProfileID = HardCodedProfiles2 ? GetCurrentProfile(jsonProfile, HardCodedProfiles2) : null;
-
+     const secondaryProfileID = daySecIndex !== undefined ? GetCurrentProfile(jsonProfile, HardCodedProfiles2) : null;
 
     /* Set routineid on profiles */
     const body: any = {}
     body[`${currentProfileID}/currentDay`] = dayIndex;
-    if (secondaryProfileID) body[`${secondaryProfileID}/currentDay`] = dayIndex;
-
-    console.log({body})
+    if (secondaryProfileID) body[`${secondaryProfileID}/currentDay`] = daySecIndex;
 
     await fetch(`${db}profile.json`, {
         method: "PATCH",

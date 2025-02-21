@@ -11,8 +11,6 @@ export const getRoutineAndCurrentDay = async (routineID: string, currentProfile:
     /* Get current day and its exercises */
     const currentDayIndex: number = currentProfile.currentDay < jsonRoutine.days.length ? currentProfile.currentDay : 0;
 
-    console.log({currentProfile})
-
     return { currentDayIndex, jsonRoutine };
 
 }

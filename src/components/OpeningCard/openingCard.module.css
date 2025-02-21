@@ -18,6 +18,7 @@
     cursor: auto;
 }
 
+
 .openingCard {
     transition: height 0.25s;
     border: 1px solid black;
@@ -28,9 +29,17 @@
     overflow: hidden;
 }
 
+
 .openingCard:hover {
     cursor: pointer;
     box-shadow: 2px 2px 2px;
+}
+
+
+.NoPTop {
+    padding-top: 0;
+    padding-bottom: 0;
+    gap: 0;
 }
 
 @media screen and (min-width: 1000px) {

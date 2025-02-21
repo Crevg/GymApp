@@ -3,6 +3,11 @@
     padding-left: 50%;
 }
 
+.nextWorkoutLabel:hover {
+    color: rgb(105, 105, 105);
+    cursor: pointer;
+}
+
 
 @media screen and (min-width: 1000px){
         

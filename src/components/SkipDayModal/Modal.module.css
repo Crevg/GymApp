@@ -26,21 +26,67 @@
 }
 
 .SkipDayCard {
-    width: 15%;
+    width: 100%;
 }
 
-.SpecificDayContainer {
-    margin: 1%;
-    margin-top: 5%;
+.DaysColumn {
     padding-left: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1em;
+    width: 100%;
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px solid black;
+}
+
+.SelectDayContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
 }
 
 
+.footer {
+    width: 100%;
+    background-color: white;
+    height: 1%;
+    position: sticky;
+    box-shadow: 10px 0 white;
+    bottom: 0;
+    
+}
+
+.FullModal {
+    height: 90vh;
+}
 
 @media screen and (min-width: 1000px) {
     .CheckboxContainer {
-
         width: 50%;
     }
+    
+    .SelectDayContainer {
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: flex-start;
+        gap: 5em;
+    }
+
+    .DaysColumn {
+        border-top: none;
+    }
+
+    .DaysColumn:first-of-type {
+        border-right: 1px solid black;
+    }
+    
+    .FullModal {
+        height: 200px;
+    }
+    
     
 }

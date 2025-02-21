@@ -10,12 +10,13 @@ type Props = {
     day: RoutineDay;
     setExercises: (exercises: Array<number>) => any;
     availableExercises: Array<number>;
-    exercises: Array<Exercise>
+    exercises: Array<Exercise>;
+    readonly?: boolean
 }
 
 const heightValue = 54;
 
-export default function DayCard({ day, setExercises, availableExercises, exercises }: Props) {
+export default function DayCard({ day, setExercises, availableExercises, exercises, readonly }: Props) {
 
     // check if never created SHOULD ADD A CREATING CLAUSE ON POST
     if (!day.exercises) {
@@ -31,12 +32,6 @@ export default function DayCard({ day, setExercises, availableExercises, exercis
         setExercises(exercises)
     }
 
-    /*   const onChangeExerciseNameHandler = (exercise: string, i: number) => {
-          const exercises = day.exercises ?? [];
-          exercises[i].name = exercise;
-          setExercises(exercises)
-      } */
-
     const onChangeExerciseHandler = (exerciseId: number, index: number) => {
         const updatedExercises = day.exercises;
         updatedExercises[index] = exerciseId;
@@ -50,34 +45,33 @@ export default function DayCard({ day, setExercises, availableExercises, exercis
         setExercises(exercises)
     }
 
-    return <OpeningCard title={day.name} height={height} setHeight={setHeight}  >
+    return <OpeningCard title={day.name} height={height} setHeight={setHeight} readonly={readonly}  >
 
         {day.exercises.length === 0 && 'There are currently no exercises.'}
         {day.exercises.map((exercise, i) =>
-            <div className={styles.exerciseInputContainer}
+            <div className={ !readonly  ? styles.exerciseInputContainer : ''}
                 key={`${exercise}-${i}`}>
-                {/*     <input
-                    className={styles.exerciseInput}
-                    onChange={(e) => onChangeExerciseNameHandler(e.target.value, i)}
-                    value={exercise.name}
-                ></input> */}
 
-                <select
+                {!readonly && <select
                     className={styles.exerciseInput}
                     value={exercise}
                     onChange={(e) => onChangeExerciseHandler(parseInt(e.target.value), i)}>
                     {availableExercises.map((availableExe, i) =>
                         <option key={`availableExercise-${i}`} value={availableExe}> {exercises.find(exe => exe.id === availableExe)?.name ?? 'No name'}</option>)}
                 </select>
+                }
 
-                <FontAwesomeIcon cursor={'pointer'} color="#880808" icon={faTrash} onClick={() => deleteExercise(i)}></FontAwesomeIcon>
+
+                {!readonly && <FontAwesomeIcon cursor={'pointer'} color="#880808" icon={faTrash} onClick={() => deleteExercise(i)}></FontAwesomeIcon> }
+                {readonly && <p> {exercises.find(exe => exe.id === exercise)?.name ?? 'No name'} </p>}
+
             </div>)}
 
-        <div style={{
+        {!readonly && <div style={{
             width: "fitContent",
             alignSelf: "center"
         }} onClick={() => addNewExercise()} className="navigationButtonSmall">
-            <FontAwesomeIcon cursor={'pointer'} icon={faPlusCircle}></FontAwesomeIcon> </div>
+            <FontAwesomeIcon cursor={'pointer'} icon={faPlusCircle}></FontAwesomeIcon> </div>}
     </OpeningCard >
 
 

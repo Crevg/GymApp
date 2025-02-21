@@ -13,8 +13,6 @@ type Props = {
 }
 export default function RoutineExercises({ routine, routineId, exercises, exercisesPerMuscle }: Props) {
 
-    console.log({routine, routineId, exercises, exercisesPerMuscle})
-
     const [currentRoutine, setCurrentRoutine] = useState<Routine>(routine);
 
     const setExercises = (updatedExercises: Array<number>, index: number) => {
@@ -31,8 +29,6 @@ export default function RoutineExercises({ routine, routineId, exercises, exerci
 
 
     }
-
-    console.log({ days: currentRoutine.days })
 
     return <main className="main centeredFlex">
         <h1> {currentRoutine.name} </h1>

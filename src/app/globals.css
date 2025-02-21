@@ -125,4 +125,12 @@ body {
         height: 40px;
 
     }
+
+    .backIcon {
+        width: auto;
+    }
+
+    .homeIcon{
+        width: fit-content;
+    }
 }

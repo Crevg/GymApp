@@ -10,9 +10,11 @@ type Props = {
     children?: Readonly<ReactNode>,
     height: string,
     setHeight: (h: string) => any;
+    readonly?: boolean;
+
 }
 
-export default function OpeningCard({ title, children, height, setHeight}: Props) {
+export default function OpeningCard({ title, children, height, setHeight, readonly }: Props) {
 
     const heightValue = 54;
 
@@ -36,17 +38,17 @@ export default function OpeningCard({ title, children, height, setHeight}: Props
 
     return <div
         ref={ref}
-        className={styles.openingCard}
+        className={`${styles.openingCard} ${readonly && styles.readOnlyOpeningCard}`}
 
         style={{ height: height }}>
 
-        <div className={styles.openingCardTitle}
+        <div className={styles.openingCardTitle  }
             onClick={() => { changeDivHeight() }}
         >
             <div className={styles.openingCardTitleItem}> {title ?? ''} </div>
             <div className={styles.openingCardTitleItem} > <FontAwesomeIcon icon={height === `${heightValue}px` ? faArrowDown : faArrowUp}></FontAwesomeIcon> </div>
         </div>
-        <div className={styles.openingCardBody}>
+        <div className={`${readonly && styles.NoPTop} ${styles.openingCardBody}`}>
             {children}
         </div>
     </div>

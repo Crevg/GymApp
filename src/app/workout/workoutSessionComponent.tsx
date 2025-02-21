@@ -40,12 +40,8 @@ export default function WorkoutSessionComponent({
     const { activeTab, setNeedTabs } = useContext(ActiveTabContext);
     const [modalOpen, setModalOpen] = useState(false);
 
-    console.log({    currentDayIndex,
-        currentDayIndexSecondary,})
-
     /* Verify if tabs are needed */
     useEffect(() => {
-        console.log({ secondaryProfile })
         if (secondaryProfile) {
             setNeedTabs(true);
         }
@@ -162,7 +158,6 @@ export default function WorkoutSessionComponent({
 
     })
 
-    console.log({workouts, workoutsSecondary});
     /* Update workout generic depending on currenttab */
     const updateWorkouts = (exercise: number, target: 'sets' | 'weight' | 'reps', index: number, value: string) => {
         let setWorkoutState = activeTab === 0 ? setWorkouts : setWorkoutSecondary;
