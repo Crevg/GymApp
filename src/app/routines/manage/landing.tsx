@@ -4,17 +4,17 @@ import styles from './page.module.css'
 import { useState } from 'react';
 import ManageRoutineComponent from './manage';
 import SelectRoutine from './select';
+import isAdminUser from '@/app/helpers/isAdminUser';
 
 type Props = {
     routines: any[],
     currentRoutine: number,
-    currentRoutineSecondary?: number,
+    currentRoutineSecondary: number,
 }
 
 export default function ManageLanding({ routines, currentRoutine, currentRoutineSecondary }: Props) {
 
     const [option, setOption] = useState<number>(0)
-
     return (
         <main className={`main centeredFlex`}>
             <h1> {"Manage Routines"} </h1>
@@ -52,7 +52,8 @@ export default function ManageLanding({ routines, currentRoutine, currentRoutine
             {option === 1 && <SelectRoutine
                 routines={routines}
                 currentRoutine={currentRoutine}
-                currentRoutineSecondary={currentRoutineSecondary}></SelectRoutine>}
+                currentRoutineSecondary={currentRoutineSecondary}
+                ></SelectRoutine>}
             {option === 2 && <ManageRoutineComponent routines={routines}></ManageRoutineComponent>}
         </main>
 

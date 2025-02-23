@@ -2,9 +2,11 @@
 
 import { redirect, RedirectType } from "next/navigation";
 import { DBProfile, Routine, RoutineDay, WorkoutSession } from "../../public/types";
-import { db } from "../../public/api/api";
+import { db as database } from "../../public/api/api";
+import { db } from "./firebase/firebase"
 import { GetCurrentProfile } from "./helpers/getCurrentProfileHelper";
 import { HardCodedProfiles1, HardCodedProfiles2 } from "../../public/data/hardcodeProfiles";
+import { cookies } from "next/headers";
 
 // Save a new routine layout 
 export async function saveRoutine(name: string, days: Array<RoutineDay>) {
@@ -13,7 +15,7 @@ export async function saveRoutine(name: string, days: Array<RoutineDay>) {
         days: days
     }
 
-    const saveRoutinesRes = await fetch(`${db}routines.json`, {
+    const saveRoutinesRes = await fetch(`${database}routines.json`, {
         method: "POST",
         body: JSON.stringify(routine)
     }
@@ -21,12 +23,12 @@ export async function saveRoutine(name: string, days: Array<RoutineDay>) {
 
     const saveRoutinesJson = await saveRoutinesRes.json();
 
-    const routinesRes = await fetch(`${db}routines.json`, {
+    const routinesRes = await fetch(`${database}routines.json`, {
         method: "GET",
         cache: "no-cache"
     })
 
-   
+
 
     const jsonRoutinesList = await routinesRes.json();
 
@@ -46,58 +48,12 @@ export async function saveRoutine(name: string, days: Array<RoutineDay>) {
 
 // edit the exercises in a routine
 export async function editRoutine(routine: Routine, routineId: string) {
-    const res = await fetch(`${db}routines/${routineId}.json`, {
+    const res = await fetch(`${database}routines/${routineId}.json`, {
         method: 'PUT',
         body: JSON.stringify(routine)
     })
 
     redirect("/", RedirectType.push)
-}
-
-// change current routine
-export async function changeCurrentRoutine(routineIndex: number, secondaryRoutineIndex?: number) {
-    const res = await fetch(`${db}routines.json`, { method: 'GET', cache: 'no-cache' })
-    const json = await res.json();
-
-    let routineId = "";
-    let secondaryRoutineId = "";
-    let j = 0;
-    const routinesId = Object.keys(json);
-    routineId = routineId[routineIndex];
-    if (secondaryRoutineIndex !== undefined) secondaryRoutineId = routinesId[secondaryRoutineIndex];
-   /*  for (let i in json) {
-        if (j == rotuineIndex) {
-            routineId = i;
-            if (secondaryRoutineIndex === undefined) break;
-        } 
-        if (secondaryRoutineIndex !== undefined && j === secondaryRoutineIndex) {
-            secondaryRoutineId = i
-        }
-        j++;
-    }; */
-
-    const readProfile = await fetch(`${db}/profile.json`, { method: 'GET', cache: 'no-cache' })
-    const jsonProfile = await readProfile.json();
-
-    // Get current profile and secondary profile if needed 
-    const currentProfileID = GetCurrentProfile(jsonProfile, HardCodedProfiles1);
-    const secondaryProfileID = jsonProfile[String(currentProfileID)].id === HardCodedProfiles1 ?
-        GetCurrentProfile(jsonProfile, HardCodedProfiles2) : null;
-
-
-    /* Set routineid on profiles */
-    const body: any = {}
-    body[`${currentProfileID}/routine`] = routineId;
-    if (secondaryProfileID) body[`${secondaryProfileID}/routine`] = secondaryRoutineId;
-
-    await fetch(`${db}profile.json`, {
-        method: "PATCH",
-        body: JSON.stringify(body)
-    })
-
-    redirect('/', RedirectType.push)
-
-
 }
 
 export async function confirmWorkout(
@@ -116,7 +72,7 @@ export async function confirmWorkout(
     try {
 
         /* Get profiles id */
-        const readProfile = await fetch(`${db}/profile.json`, { method: 'GET', cache: 'no-cache' })
+        const readProfile = await fetch(`${database}/profile.json`, { method: 'GET', cache: 'no-cache' })
         const jsonProfile = await readProfile.json();
 
         const currentProfileID = GetCurrentProfile(jsonProfile, currentProfile.id);
@@ -150,7 +106,7 @@ export async function confirmWorkout(
         }
 
         /* Update main profile session on DB */
-        const newSession = await fetch(`${db}profile/${currentProfileID}/sessions.json`, {
+        const newSession = await fetch(`${database}profile/${currentProfileID}/sessions.json`, {
             method: "POST",
             body: JSON.stringify({
                 routine: routineId,
@@ -159,7 +115,7 @@ export async function confirmWorkout(
             })
         })
 
-        const updatedCurrentDay = await fetch(`${db}/profile/${currentProfileID}.json`, {
+        const updatedCurrentDay = await fetch(`${database}/profile/${currentProfileID}.json`, {
             method: "PATCH",
             body: JSON.stringify({
                 currentDay: (day + 1) < currentProfile.routine.length ? day + 1 : 0
@@ -168,7 +124,7 @@ export async function confirmWorkout(
 
         /* Update secondary profile session on DB if able*/
         if (secondaryProfile && !isSingleWorkout && sanitizedSecondarySession) {
-            const newSecondarySession = await fetch(`${db}profile/${secondaryProfileID}/sessions.json`, {
+            const newSecondarySession = await fetch(`${database}profile/${secondaryProfileID}/sessions.json`, {
                 method: "POST",
                 body: JSON.stringify({
                     routine: routineIdSecondary,
@@ -177,7 +133,7 @@ export async function confirmWorkout(
                 })
             })
 
-            const updatedCurrentDay = await fetch(`${db}/profile/${secondaryProfileID}.json`, {
+            const updatedCurrentDay = await fetch(`${database}/profile/${secondaryProfileID}.json`, {
                 method: "PATCH",
                 body: JSON.stringify({
                     currentDay: (daySecondary + 1) < secondaryProfile.routine.length ? day + 1 : 0
@@ -201,7 +157,7 @@ export async function createNewProfile(profileName: string) {
             id: profileName,
             currentDay: 0,
         }
-        const newSession = await fetch(`${db}profile.json`, {
+        const newSession = await fetch(`${database}profile.json`, {
             method: "POST",
             body: JSON.stringify(jsonBody)
         });
@@ -216,24 +172,48 @@ export async function createNewProfile(profileName: string) {
 
 export async function updateCurrentDay(dayIndex: number, daySecIndex?: number) {
 
-     /* Get profiles id */
-     const readProfile = await fetch(`${db}/profile.json`, { method: 'GET', cache: 'no-cache' })
-     const jsonProfile = await readProfile.json();
+    /* Get profiles id */
+    const readProfile = await fetch(`${database}/profile.json`, { method: 'GET', cache: 'no-cache' })
+    const jsonProfile = await readProfile.json();
 
-     const currentProfileID = GetCurrentProfile(jsonProfile, HardCodedProfiles1);
-     const secondaryProfileID = daySecIndex !== undefined ? GetCurrentProfile(jsonProfile, HardCodedProfiles2) : null;
+    const currentProfileID = GetCurrentProfile(jsonProfile, HardCodedProfiles1);
+    const secondaryProfileID = daySecIndex !== undefined ? GetCurrentProfile(jsonProfile, HardCodedProfiles2) : null;
 
     /* Set routineid on profiles */
     const body: any = {}
     body[`${currentProfileID}/currentDay`] = dayIndex;
     if (secondaryProfileID) body[`${secondaryProfileID}/currentDay`] = daySecIndex;
 
-    await fetch(`${db}profile.json`, {
+    await fetch(`${database}profile.json`, {
         method: "PATCH",
         body: JSON.stringify(body)
     })
 
     return;
+}
+
+export async function login(token: string, name: string, id: string) {
+    try {
+        const cookieStore = await cookies();
+        cookieStore.set("gym-clapp-session", JSON.stringify({
+            name: name ?? "New user",
+            id: id,
+            token: token
+        }), { maxAge: 2600000 });
+        return true;
+    } catch (e) { return false }
+}
+
+export async function checkIfSignedIn() {
+    const cookieStore = await cookies();
+    const exists = cookieStore.has("gym-clapp-session");
+    if (exists) {
+        const value = cookieStore.get("gym-clapp-session")?.value;
+        if (value) {
+            return JSON.parse(value);
+        }
+    }
+    return null;
 }
 
 

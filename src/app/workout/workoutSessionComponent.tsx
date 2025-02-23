@@ -41,7 +41,7 @@ export default function WorkoutSessionComponent({
 
     /* Verify if tabs are needed */
     useEffect(() => {
-        if (secondaryProfile) {
+        if (routineSecondary) {
             setNeedTabs(true);
         }
         else {
@@ -50,7 +50,7 @@ export default function WorkoutSessionComponent({
     }, [secondaryProfile])
 
     const currentDayExercises = routine.days[currentDayIndex].exercises ?? [];
-    const currentDayExercisesSecondary = routineSecondary.days[currentDayIndexSecondary].exercises ?? [];  
+    const currentDayExercisesSecondary = routineSecondary?.days[currentDayIndexSecondary].exercises ?? [];  
 
     // Set default values to each exercise from cache or previous session or a default
     const [workouts, setWorkouts] = useState<Array<WorkoutSession>>(() => {

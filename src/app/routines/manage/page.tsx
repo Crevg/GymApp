@@ -1,29 +1,41 @@
 
 import ManageLanding from "./landing";
-import { db } from "../../../../public/api/api";
-import { GetCurrentProfile } from "@/app/helpers/getCurrentProfileHelper";
 import { HardCodedProfiles1, HardCodedProfiles2 } from "../../../../public/data/hardcodeProfiles";
-import { DBProfile } from "../../../../public/types";
-import { getAllRoutines, getCurrentProfile, getCurrentRoutine } from "@/app/firebase/database";
+import { getAllRoutines, getCurrentProfile } from "@/app/firebase/database";
 import isAdminUser from "@/app/helpers/isAdminUser";
 import { EmptyProfile, getRoutineIndex, getValidProfile } from "@/app/helpers/ProfileHelper";
+import { checkIfSignedIn } from "@/app/actions";
+import { redirect, RedirectType } from "next/navigation";
 
 export default async function ManageRoutine() {
-    const routines = await getAllRoutines();
-    const currentProfile = await getCurrentProfile(HardCodedProfiles1);
-    const secondaryProfile = isAdminUser() ? await getCurrentProfile(HardCodedProfiles2) : EmptyProfile;
 
-    const routineIndex = getRoutineIndex(routines, currentProfile.routine);
-    let routineIndexSecondary;
-    if (isAdminUser()) {
-        routineIndexSecondary = getRoutineIndex(routines, secondaryProfile.routine)
+    const sessionProfile = await checkIfSignedIn();
+    if (sessionProfile) {
+        const currentProfile = await getCurrentProfile(sessionProfile.id);
+        if (getValidProfile(currentProfile) === null) {
+            redirect("/error", RedirectType.replace)
+        }
+        const routines = await getAllRoutines();
+
+
+        let routinesArray = [];
+        let routineId = "";
+        let j = 0;
+        for (let i in routines) {
+            routinesArray.push(routines[i])
+            j++;
+        };
+        const secondaryProfile = await isAdminUser() ? await getCurrentProfile(HardCodedProfiles2) : EmptyProfile;
+        const routineIndex = getRoutineIndex(routines, currentProfile.routine);
+   
+        const routineIndexSecondary = getRoutineIndex(routines, secondaryProfile.routine)
+        
+
+        return <ManageLanding
+            routines={routinesArray}
+            currentRoutine={routineIndex}
+            currentRoutineSecondary={routineIndexSecondary}
+        ></ManageLanding>
     }
-
-
-    return <ManageLanding
-        routines={routines}
-        currentRoutine={routineIndex}
-        currentRoutineSecondary={routineIndexSecondary}
-    ></ManageLanding>
 
 }

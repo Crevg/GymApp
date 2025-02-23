@@ -9,3 +9,11 @@
     cursor: pointer;
     box-shadow: 2px 2px 2px;
 }
+
+.disabled {
+    color: gray;
+}
+
+.disabled:hover {
+    cursor: not-allowed;
+}

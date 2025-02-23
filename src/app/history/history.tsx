@@ -1,6 +1,6 @@
 "use client"
 
-import { Exercise, SanitizedHistory } from "../../../public/types"
+import { SanitizedHistory } from "../../../public/types"
 
 import HistoryCard from "./historyCard"
 
