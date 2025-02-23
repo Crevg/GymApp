@@ -3,27 +3,24 @@ import { db } from "../../../../public/api/api";
 import { exercises, exercisesPerMuscle } from "../../../../public/data/muscleGroups";
 import { Routine } from "../../../../public/types";
 import RoutineExercises from "./routineExercises";
+import { getAllRoutines } from "@/app/firebase/database";
 
 
 
 export default async function RoutinePage({ params }: { params: { routine: number } }) {
 
-
-    const res = await fetch(`${db}/routines.json`, { method: 'GET', cache: 'no-cache' });
-    const json = await res.json();
-
+    const allRoutines = await getAllRoutines();
 
     let routines = [];
     let routineId = "";
     let j = 0;
-    for (let i in json) {
-        routines.push(json[i])
+    for (let i in allRoutines) {
+        routines.push(allRoutines[i])
         if (j == params.routine) {
             routineId = i;
             break;
         }
         j++;
-
     };
 
     let myRoutine: Routine = routines[params.routine]

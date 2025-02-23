@@ -1,43 +1,61 @@
 import { db } from "../../../public/api/api";
-import { HardCodedProfiles1 } from "../../../public/data/hardcodeProfiles";
+import { HardCodedProfiles1, HardCodedProfiles2 } from "../../../public/data/hardcodeProfiles";
 import { exercises } from "../../../public/data/muscleGroups";
 import { Routine, Session } from "../../../public/types";
-import { GetCurrentProfile } from "../helpers/getCurrentProfileHelper";
+import { getAllRoutines, getCurrentProfile, getCurrentRoutine } from "../firebase/database";
+import isAdminUser from "../helpers/isAdminUser";
+import { EmptyProfile, getValidProfile } from "../helpers/ProfileHelper";
 import HistoryComponent from "./history";
 
-export default async function HistoryPage () {
+export default async function HistoryPage() {
 
-    const readProfile = await fetch(`${db}/profile.json`, { method: 'GET', cache: 'no-cache' })
-    const jsonProfile = await readProfile.json();
+    const currentProfile = await getCurrentProfile(HardCodedProfiles1);
+    let secondaryProfile = isAdminUser() ? await getCurrentProfile(HardCodedProfiles2) : EmptyProfile;
 
-    // Get current profile IN THIS CASE CRIS
-
-    const currentProfileID = GetCurrentProfile(jsonProfile, HardCodedProfiles1);
-    const currentProfileSessions = jsonProfile[String(currentProfileID)].sessions ?? {}
-
-    let history: Array<Session> = [];
-
-    for (let session in currentProfileSessions) {
-        history.push(currentProfileSessions[session]);
+    if (getValidProfile(currentProfile) === null) {
+        throw "FATAL ERROR: No profile. "
     }
 
-     // sanitize history
 
-     const readRoutine = await fetch(`${db}/routines.json`, { method: 'GET', cache: 'no-cache' })
-     const jsonRoutine = await readRoutine.json();
+    const AllRoutines = await getAllRoutines();
 
-     let sanitizedHistory = history.map( h => {
-        let routine: Routine = jsonRoutine[h.routine];
+    const sessions = currentProfile.sessions;
+    const sessionsSecondary = getValidProfile(secondaryProfile)?.sessions;
+
+    let history: Array<Session> = [];
+    let historySecondary: Array<Session> = [];
+
+    for (let sessionID in sessions) {
+        history.push(sessions[sessionID]);
+    }
+
+
+    for (let sessionIDSec in sessionsSecondary) {
+        historySecondary.push(sessionsSecondary[sessionIDSec]);
+    }
+
+    // sanitize history
+
+    const sanitizedHistory = history.map(h => {
+        let routine: Routine = AllRoutines[h.routine];
         return {
             routineName: routine.name,
             day: routine.days[h.day].name,
             workout: h.workout
-
         }
-     })
+    })
 
-     sanitizedHistory.reverse();
-     const myExercises = exercises;
+    const sanitizedHistorySecondary = historySecondary.map(h => {
+        let routine: Routine = AllRoutines[h.routine];
+        return {
+            routineName: routine.name,
+            day: routine.days[h.day].name,
+            workout: h.workout
+        }
+    })
 
-    return <HistoryComponent exerciseList={myExercises} history={sanitizedHistory}></HistoryComponent>
+    sanitizedHistory.reverse();
+    sanitizedHistorySecondary.reverse();
+
+    return <HistoryComponent history={sanitizedHistory} historySecondary={sanitizedHistorySecondary}></HistoryComponent>
 }

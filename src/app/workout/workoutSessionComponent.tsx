@@ -6,6 +6,7 @@ import ExerciseComponent from "./exercise";
 import { confirmWorkout } from "../actions";
 import SingleOrDoubleModal from "@/components/SingleOrDoubleModal/Modal";
 import styles from './page.module.css'
+import { exercises as exerciseList } from "../../../public/data/muscleGroups";
 
 
 type Props = {
@@ -15,11 +16,10 @@ type Props = {
     secondaryProfile: DBProfile | null,
     routineID: string,
     routineIDSecondary: string,
-    exerciseList: Array<Exercise>,
     currentDayIndex: number,
     currentDayIndexSecondary: number,
     previousSession: Session | undefined,
-    secondaryPreviousSession: Session | undefined
+    previousSessionSecondary: Session | undefined
 
 }
 
@@ -29,11 +29,10 @@ export default function WorkoutSessionComponent({
     currentProfile,
     secondaryProfile,
     routineID,
-    exerciseList,
     currentDayIndex,
     currentDayIndexSecondary,
     previousSession,
-    secondaryPreviousSession,
+    previousSessionSecondary,
     routineIDSecondary
 }: Props) {
 
@@ -122,7 +121,7 @@ export default function WorkoutSessionComponent({
                 if (useLocalStorageValues) {
                     defaultValues = cachedValuesJson?.workout.find(w => w.exerciseId === exercise) ?? null;
                 } else {
-                    const previousWorkout = { ...secondaryPreviousSession?.workout.find(w => w.exerciseId === exercise) };
+                    const previousWorkout = { ...previousSessionSecondary?.workout.find(w => w.exerciseId === exercise) };
                     defaultValues = null;
                     const setsNumber: number = previousWorkout?.sets?.reduce((amount, set) => {
                         return amount + parseInt(set)
@@ -235,7 +234,7 @@ export default function WorkoutSessionComponent({
                 exerciseID={exercise}
                 previousSession={
                     activeTab === 0 ? previousSession?.workout.find(w => w.exerciseId === exercise)
-                        : secondaryPreviousSession?.workout.find(w => w.exerciseId === exercise)}
+                        : previousSessionSecondary?.workout.find(w => w.exerciseId === exercise)}
                 profile={activeTab === 0 ? currentProfile : secondaryProfile ?? currentProfile}
                 session={(activeTab === 0 ? workouts : workoutsSecondary).find(s => s.exerciseId === exercise) as WorkoutSession}
                 setSession={(target: 'sets' | 'weight' | 'reps', index: number, value: string) => {

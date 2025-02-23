@@ -4,14 +4,14 @@ import OpeningCard from "@/components/OpeningCard/openingCard";
 import styles from './page.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDumbbell, faListOl, faWeightHanging } from "@fortawesome/free-solid-svg-icons";
+import { exercises } from "../../../public/data/muscleGroups";
+
 
 type Props = {
     session: SanitizedHistory
-    exerciseList: Array<Exercise>
-
 }
 
-export default function HistoryCard({ session, exerciseList }: Props) {
+export default function HistoryCard({ session }: Props) {
 
     const [height, setHeight] = useState("54px");
 
@@ -25,7 +25,7 @@ export default function HistoryCard({ session, exerciseList }: Props) {
 
             {session.workout.map((w, i) =>
                 <Fragment key={`hcard-${i}`}>
-                    <div>  {exerciseList.find(ex => ex.id === w.exerciseId)?.name} </div>
+                    <div>  {exercises.find(ex => ex.id === w.exerciseId)?.name} </div>
                     <div style={{ display: 'flex', flexDirection: "column" }}>
                         {w.sets.map((s, index) => <div key={`hcards-${index}`}> {s} </div>)}
                     </div>
