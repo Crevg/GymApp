@@ -1,9 +1,10 @@
-import { HardCodedProfiles1 } from "../../../public/data/hardcodeProfiles";
+import { AdminProfile } from "../../../public/data/adminData";
 import { checkIfSignedIn } from "../actions";
 
 const isAdminUser = async () => {
+    
     const userData = await checkIfSignedIn();
-    return userData.name === HardCodedProfiles1;
+    return userData.id === AdminProfile;
     
 }
 

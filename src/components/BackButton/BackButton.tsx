@@ -10,9 +10,9 @@ export function BackButton() {
     const router = useRouter();
 
     return <Fragment>
-        <div className="backIcon" onClick={() => router.back()}>
+        {/* <div className="backIcon" onClick={() => router.back()}>
             <FontAwesomeIcon className="backIconFA" icon={faArrowCircleLeft}></FontAwesomeIcon>
-        </div>
+        </div> */}
         <div className="homeIcon" onClick={() => router.push("/")}>
             <FontAwesomeIcon className="homeIconFA"  icon={faHome}></FontAwesomeIcon>
         </div>

@@ -1,9 +1,9 @@
 "use client"
-import styles from './page.module.css'
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { Exercise, ExercisesPerMuscle, Routine, RoutineDay } from "../../../../public/types"
 import DayCard from './dayCard'
-import { editRoutine } from '@/app/actions'
+import { editRoutine } from '@/app/firebase/database'
+import { useRouter } from 'next/navigation'
 
 type Props = {
     routine: Routine,
@@ -13,6 +13,7 @@ type Props = {
 }
 export default function RoutineExercises({ routine, routineId, exercises, exercisesPerMuscle }: Props) {
 
+    const router = useRouter();
     const [currentRoutine, setCurrentRoutine] = useState<Routine>(routine);
 
     const setExercises = (updatedExercises: Array<number>, index: number) => {
@@ -45,7 +46,10 @@ export default function RoutineExercises({ routine, routineId, exercises, exerci
                 exercises={exercises}
             ></DayCard>)}
         <button
-            onClick={() => editRoutine(currentRoutine, routineId)}
+            onClick={() => {
+                editRoutine(currentRoutine, routineId)
+                router.push("/")
+            }}
             className="navigationButton"
             style={{ marginTop: '2rem', fontSize: "large" }}
         > {"Finish"}

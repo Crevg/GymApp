@@ -71,7 +71,7 @@ export default function DayCard({ day, setExercises, availableExercises, exercis
             width: "fitContent",
             alignSelf: "center"
         }} onClick={() => addNewExercise()} className="navigationButtonSmall">
-            <FontAwesomeIcon cursor={'pointer'} icon={faPlusCircle}></FontAwesomeIcon> </div>}
+            <FontAwesomeIcon cursor={'pointer'} color="green" fontSize={'1.5rem'} icon={faPlusCircle}></FontAwesomeIcon> </div>}
     </OpeningCard >
 
 

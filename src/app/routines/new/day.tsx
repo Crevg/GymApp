@@ -1,7 +1,7 @@
 "use client"
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClose, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faClose, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { muscleGroups } from '../../../../public/data/muscleGroups'
 import styles from './page.module.css'
 
@@ -46,21 +46,22 @@ export default function RoutineDayComponent({ name, group, setName, setGroup, re
             <FontAwesomeIcon
                 icon={faClose}
                 color='#880808'
-                style={{ marginLeft: 'auto' }}
+                style={{ marginLeft: 'auto'}}
                 cursor={'pointer'}
                 onClick={() => removeDay()}
             ></FontAwesomeIcon>
             <input
                 className={`${styles.dayInput} ${styles.dayName}`}
-                placeholder='Day name'
+                placeholder='Enter day name'
                 name='dayName'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
             >
             </input>
+            <div className={styles.separator}></div>
             {group.map((g, i) =>
                 <div key={`muscleGroup-${i}`} className={styles.dayInputContainer}>
-                    <select className={styles.dayInput}
+                    <select className={styles.muscleInput}
                         style={{ cursor: 'pointer' }}
                         value={g}
                         onChange={e => changeGroup(parseInt(e.target.value), i)}
@@ -73,13 +74,19 @@ export default function RoutineDayComponent({ name, group, setName, setGroup, re
                     <FontAwesomeIcon
                         icon={faTrash}
                         color='#880808'
-                        style={{ marginLeft: 'auto' }}
+                        style={{ marginLeft: 'auto',  marginRight: '7%'  }}
                         cursor={'pointer'}
                         onClick={() => removeGroup(i)}
                     ></FontAwesomeIcon>
                 </div>
             )}
-            {group.length <= 3 && <button className='navigationButtonSmall' onClick={addNewGroup}> <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon></button>}
+            {group.length <= 3 && <div style={{
+                width: "fitContent",
+                alignSelf: "center",
+                cursor: "pointer"
+            }} onClick={addNewGroup}>
+                <FontAwesomeIcon color='green' fontSize={"1.5rem"} icon={faPlusCircle}></FontAwesomeIcon> 
+            </div>}
 
 
         </Card>

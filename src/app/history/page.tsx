@@ -1,5 +1,5 @@
 import { redirect, RedirectType } from "next/navigation";
-import { HardCodedProfiles1, HardCodedProfiles2 } from "../../../public/data/hardcodeProfiles";
+import { SecondaryProfileID } from "../../../public/data/adminData";
 import { Routine, Session } from "../../../public/types";
 import { checkIfSignedIn } from "../actions";
 import { getAllRoutines, getCurrentProfile, getCurrentRoutine } from "../firebase/database";
@@ -16,7 +16,7 @@ export default async function HistoryPage() {
             redirect("/error", RedirectType.replace )    
         }
 
-        let secondaryProfile = await isAdminUser() ? await getCurrentProfile(HardCodedProfiles2) : EmptyProfile;
+        let secondaryProfile = await isAdminUser() ? await getCurrentProfile(SecondaryProfileID) : EmptyProfile;
 
         const AllRoutines = await getAllRoutines();
 

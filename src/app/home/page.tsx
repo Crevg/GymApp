@@ -3,12 +3,12 @@ import { Card } from "@/components/Card/Card";
 import styles from "./page.module.css"
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { HardCodedProfiles1, HardCodedProfiles2 } from "../../../public/data/hardcodeProfiles";
+import { SecondaryProfileID } from "../../../public/data/adminData";
 import SkipDayModal from "@/components/SkipDayModal/Modal";
 import { Routine } from "../../../public/types";
-import { checkIfSignedIn, updateCurrentDay } from "../actions";
+import { checkIfSignedIn } from "../actions";
 //import { getAuth, getRedirectResult, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
-import { getCurrentProfile, getCurrentRoutine } from "../firebase/database";
+import { getCurrentProfile, getCurrentRoutine, updateCurrentDay } from "../firebase/database";
 import isAdminUser from "../helpers/isAdminUser";
 import { EmptyProfile, getValidProfile } from "../helpers/ProfileHelper";
 
@@ -32,7 +32,7 @@ export default function Home() {
             if (sessionProfile) {
                 setName(sessionProfile.name)
                 const currentProfile = await getCurrentProfile(sessionProfile.id);
-                let secondaryProfile = await isAdminUser() ? await getCurrentProfile(HardCodedProfiles2) : EmptyProfile;
+                let secondaryProfile = await isAdminUser() ? await getCurrentProfile(SecondaryProfileID) : EmptyProfile;
 
                 if (getValidProfile(currentProfile) === null) {
                     throw "FATAL ERROR: No profile. "
@@ -43,6 +43,8 @@ export default function Home() {
 
                 const routine = await getCurrentRoutine(currentProfile.routine);
                 const routineSec = await getCurrentRoutine(routineSecID);
+
+                console.log({routine, currentday: currentProfile.currentDay});
 
                 const currentDayName = routine.days[currentProfile.currentDay].name;
                 const currentDaySecondary = routineSec?.days[currentDayIndexSecondary].name;

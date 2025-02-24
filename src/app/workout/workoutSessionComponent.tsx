@@ -1,12 +1,12 @@
 "use client"
 import { useContext, useEffect, useState } from "react";
 import { ActiveTabContext } from "../context/tabsState";
-import { DBProfile, Exercise, Routine, Session, WorkoutSession } from "../../../public/types";
+import { DBProfile, Routine, Session, WorkoutSession } from "../../../public/types";
 import ExerciseComponent from "./exercise";
-import { confirmWorkout } from "../actions";
+import { confirmWorkout } from "../firebase/database";
 import SingleOrDoubleModal from "@/components/SingleOrDoubleModal/Modal";
-import styles from './page.module.css'
 import { exercises as exerciseList } from "../../../public/data/muscleGroups";
+import { useRouter } from "next/navigation";
 
 
 type Props = {
@@ -38,6 +38,7 @@ export default function WorkoutSessionComponent({
 
     const { activeTab, setNeedTabs } = useContext(ActiveTabContext);
     const [modalOpen, setModalOpen] = useState(false);
+    const router = useRouter();
 
     /* Verify if tabs are needed */
     useEffect(() => {
@@ -268,6 +269,7 @@ export default function WorkoutSessionComponent({
                     singleWorkout
                 )
                 setModalOpen(false);
+                router.push("/")
 
             }}
             isOpen={modalOpen}

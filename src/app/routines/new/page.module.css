@@ -14,16 +14,40 @@
 }
 
 .dayInput { 
+    width: 50%;
+    border: none;
+    background-color: white;
+    font-size: large;
+    padding: 0.5rem;
+    margin-left: 5%;
+}
+.muscleInput {
+    width: 50%;
+    border: none;
+    background-color: var(--inputBG);
+    font-size: medium;
+    padding: 0.5rem;
+    margin-left: 5%;
+}
+
+.routineNameInput { 
     width: 100%;
     border: none;
     background-color: var(--inputBG);
     font-size: large;
     padding: 0.5rem;
+    text-align: center;
 }
 
 .dayName {
     margin-bottom: 1em;
     text-align: center;
+    width: 90%;
+    margin: auto;
+    border: none;
+    background-color: var(--inputBG);
+    font-size: large;
+    padding: 0.5rem;
 }
 
 .dayInputContainer {
@@ -39,6 +63,12 @@
     margin-bottom: 2rem;
 }
 
+.separator {
+    width: 100%;
+    margin: 1em 0;
+    border: 1px solid black;
+}
+
 @media screen and (min-width: 1000px) {
     
 .routineDayComponent {
@@ -50,6 +80,6 @@
 }
 
 .routineNameContainer {
-    width: 50%;
+    width: 30%;
 }
 }

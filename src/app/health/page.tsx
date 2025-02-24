@@ -1,27 +1,33 @@
-import { db } from "../../../public/api/api";
+import { get, ref } from "firebase/database";
+import { db } from "../firebase/firebase";
 
 export default async function Page() {
 
   let isLive = false;
 
   try {
-    const res = await fetch(`${db}Testing.json?print=pretty`,  { method: 'GET', cache: 'no-cache'});
-    const json = await res.json();
 
-    isLive = json.IsLive;
+    const query = ref(db, "Testing");
+    const snapshot = await get(query);
+    if (snapshot.exists()) {
+      const value = snapshot.val();
+
+      console.log({value})
+      isLive = value.IsLive;
+    }
   }
-  catch (e){
+  catch (e) {
     console.log(e)
     isLive = false;
-  } 
-
-    return (
-      <main>
-        <div>
-          { isLive ? "Healthy" : "Unhealthy" }
-        </div>
-      </main>
-    );
   }
-  
+
+  return (
+    <main className="centeredFlex main">
+      <div>
+        {isLive ? "Healthy" : "Unhealthy"}
+      </div>
+    </main>
+  );
+}
+
 

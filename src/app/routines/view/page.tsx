@@ -1,5 +1,5 @@
 import { checkIfSignedIn } from "@/app/actions";
-import { HardCodedProfiles1, HardCodedProfiles2 } from "../../../../public/data/hardcodeProfiles";
+import { SecondaryProfileID } from "../../../../public/data/adminData";
 import ViewMyRoutineComponent from "./view";
 import { getCurrentProfile, getCurrentRoutine } from "@/app/firebase/database";
 import { EmptyProfile, getValidProfile } from "@/app/helpers/ProfileHelper";
@@ -13,7 +13,7 @@ export default async function NewRoutine() {
     const sessionProfile = await checkIfSignedIn();
     if (sessionProfile) {
         const currentProfile = await getCurrentProfile(sessionProfile.id);
-        let secondaryProfile = await isAdminUser() ? await getCurrentProfile(HardCodedProfiles2) : EmptyProfile;
+        let secondaryProfile = await isAdminUser() ? await getCurrentProfile(SecondaryProfileID) : EmptyProfile;
 
         if (getValidProfile(currentProfile) === null) {
             redirect("/error", RedirectType.replace);

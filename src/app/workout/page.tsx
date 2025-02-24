@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic'
-import { HardCodedProfiles1, HardCodedProfiles2 } from "../../../public/data/hardcodeProfiles";
+import { SecondaryProfileID } from "../../../public/data/adminData";
 import { getCurrentProfile, getCurrentRoutine } from "../firebase/database";
 import isAdminUser from "../helpers/isAdminUser";
 import { EmptyProfile, getValidProfile } from "../helpers/ProfileHelper";
@@ -12,7 +12,7 @@ export default async function WorkoutPage() {
     const sessionProfile = await checkIfSignedIn();
     if (sessionProfile) {
         const currentProfile = await getCurrentProfile(sessionProfile.id);
-        const secondaryProfile = await isAdminUser() ? await getCurrentProfile(HardCodedProfiles2) : EmptyProfile;
+        const secondaryProfile = await isAdminUser() ? await getCurrentProfile(SecondaryProfileID) : EmptyProfile;
 
         const sessions = currentProfile.sessions;
         const sessionSecondary = getValidProfile(secondaryProfile)?.sessions;

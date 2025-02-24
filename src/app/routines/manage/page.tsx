@@ -1,6 +1,6 @@
 
 import ManageLanding from "./landing";
-import { HardCodedProfiles1, HardCodedProfiles2 } from "../../../../public/data/hardcodeProfiles";
+import { SecondaryProfileID } from "../../../../public/data/adminData";
 import { getAllRoutines, getCurrentProfile } from "@/app/firebase/database";
 import isAdminUser from "@/app/helpers/isAdminUser";
 import { EmptyProfile, getRoutineIndex, getValidProfile } from "@/app/helpers/ProfileHelper";
@@ -25,7 +25,7 @@ export default async function ManageRoutine() {
             routinesArray.push(routines[i])
             j++;
         };
-        const secondaryProfile = await isAdminUser() ? await getCurrentProfile(HardCodedProfiles2) : EmptyProfile;
+        const secondaryProfile = await isAdminUser() ? await getCurrentProfile(SecondaryProfileID) : EmptyProfile;
         const routineIndex = getRoutineIndex(routines, currentProfile.routine);
    
         const routineIndexSecondary = getRoutineIndex(routines, secondaryProfile.routine)

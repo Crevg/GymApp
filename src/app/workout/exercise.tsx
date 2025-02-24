@@ -82,7 +82,7 @@ export default function ExerciseComponent({ exerciseID, session, setSession, exe
             }}
             className={styles.AddSetIconContainer}
             onClick={() => addRemoveExtraSet(true)}
-        > <FontAwesomeIcon className={styles.AddSetIcon} icon={faPlusCircle} cursor={"pointer"}></FontAwesomeIcon>
+        > <FontAwesomeIcon color='green' fontSize={"1.5rem"} icon={faPlusCircle}></FontAwesomeIcon>
         </div>
 
 
