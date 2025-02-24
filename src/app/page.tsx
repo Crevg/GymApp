@@ -24,14 +24,6 @@ export default function Index() {
     checkForSignedIn().then();
   }, []);
 
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (window) {
-      setIsMobile(innerWidth <= 1000);
-    }
-
-  }, [window])
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
 

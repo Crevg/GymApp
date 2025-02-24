@@ -250,7 +250,23 @@ export default function WorkoutSessionComponent({
             ></ExerciseComponent>
         )}
         <button className="navigationButton" onClick={() => {
+            if (routineSecondary ) {
             setModalOpen(true);
+            } else {
+                localStorage.clear();
+                confirmWorkout(
+                    routineID,
+                    routineIDSecondary,
+                    currentProfile,
+                    secondaryProfile,
+                    workouts,
+                    workoutsSecondary,
+                    currentDayIndex,
+                    currentDayIndexSecondary,
+                    true
+                )
+                router.push("/")
+            }
         }}> Complete </button>
 
 

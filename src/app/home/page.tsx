@@ -44,8 +44,6 @@ export default function Home() {
                 const routine = await getCurrentRoutine(currentProfile.routine);
                 const routineSec = await getCurrentRoutine(routineSecID);
 
-                console.log({routine, currentday: currentProfile.currentDay});
-
                 const currentDayName = routine.days[currentProfile.currentDay].name;
                 const currentDaySecondary = routineSec?.days[currentDayIndexSecondary].name;
 
