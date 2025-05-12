@@ -4,7 +4,6 @@ import styles from './page.module.css'
 import { useState } from 'react';
 import ManageRoutineComponent from './manage';
 import SelectRoutine from './select';
-import isAdminUser from '@/app/helpers/isAdminUser';
 
 type Props = {
     routines: any[],
@@ -53,7 +52,7 @@ export default function ManageLanding({ routines, currentRoutine, currentRoutine
                 routines={routines}
                 currentRoutine={currentRoutine}
                 currentRoutineSecondary={currentRoutineSecondary}
-                ></SelectRoutine>}
+            ></SelectRoutine>}
             {option === 2 && <ManageRoutineComponent routines={routines}></ManageRoutineComponent>}
         </main>
 

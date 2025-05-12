@@ -1,6 +1,6 @@
 "use client"
 import { useContext, useEffect, useState } from "react";
-import { ActiveTabContext } from "../context/tabsState";
+import { GlobalContext } from "../context/tabsState";
 import { DBProfile, Routine, Session, WorkoutSession } from "../../../public/types";
 import ExerciseComponent from "./exercise";
 import { confirmWorkout } from "../firebase/database";
@@ -36,7 +36,7 @@ export default function WorkoutSessionComponent({
     routineIDSecondary
 }: Props) {
 
-    const { activeTab, setNeedTabs } = useContext(ActiveTabContext);
+    const { activeTab, setNeedTabs, setLoading } = useContext(GlobalContext);
     const [modalOpen, setModalOpen] = useState(false);
     const router = useRouter();
 
@@ -51,7 +51,7 @@ export default function WorkoutSessionComponent({
     }, [secondaryProfile])
 
     const currentDayExercises = routine.days[currentDayIndex].exercises ?? [];
-    const currentDayExercisesSecondary = routineSecondary?.days[currentDayIndexSecondary].exercises ?? [];  
+    const currentDayExercisesSecondary = routineSecondary?.days[currentDayIndexSecondary].exercises ?? [];
 
     // Set default values to each exercise from cache or previous session or a default
     const [workouts, setWorkouts] = useState<Array<WorkoutSession>>(() => {
@@ -226,10 +226,7 @@ export default function WorkoutSessionComponent({
         })
     }
 
-
-
     return <main className="centeredFlex main" style={{ gap: '1rem' }}>
-
         {(activeTab === 0 ? currentDayExercises : currentDayExercisesSecondary).map((exercise, i) =>
             <ExerciseComponent key={i}
                 exerciseID={exercise}
@@ -250,9 +247,10 @@ export default function WorkoutSessionComponent({
             ></ExerciseComponent>
         )}
         <button className="navigationButton" onClick={() => {
-            if (routineSecondary ) {
-            setModalOpen(true);
+            if (routineSecondary) {
+                setModalOpen(true);
             } else {
+                setLoading(true);
                 localStorage.clear();
                 confirmWorkout(
                     routineID,
@@ -272,6 +270,7 @@ export default function WorkoutSessionComponent({
 
         <SingleOrDoubleModal
             onConfirm={(singleWorkout: boolean) => {
+                setLoading(true);
                 localStorage.clear();
                 confirmWorkout(
                     routineID,

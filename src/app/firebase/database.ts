@@ -115,8 +115,10 @@ export const changeCurrentRoutine = async (routineIndex: number, secondaryRoutin
     const profileRef = ref(db, 'profile');
     const updated: any = {};
     updated[profileKey + '/routine'] = routineID;
+    updated[profileKey + '/currentDay'] = 0;
     if (updateSecondary) {
         updated[profileKeySecondary + '/routine'] = routineIDSecondary;
+        updated[profileKeySecondary + '/currentDay'] = 0;
     }
 
     update(profileRef, updated);
@@ -247,10 +249,10 @@ export async function confirmWorkout(
     let newCurrentDaySec;
     if (!isSingleWorkout && secondaryProfile) {
         currentRoutineSec = await getCurrentRoutine(routineIdSecondary);
-        newCurrentDaySec = secondaryProfile.currentDay + 1 < currentRoutineSec.days.length ?  secondaryProfile.currentDay + 1 : 0
+        newCurrentDaySec = secondaryProfile.currentDay + 1 < currentRoutineSec.days.length ? secondaryProfile.currentDay + 1 : 0
         updates[`${profileKeySecondary}/currentDay`] = newCurrentDaySec;
     }
-    const newCurrentDay = currentProfile.currentDay + 1 < currentRoutine.days.length ?  currentProfile.currentDay + 1 : 0
+    const newCurrentDay = currentProfile.currentDay + 1 < currentRoutine.days.length ? currentProfile.currentDay + 1 : 0
     updates[`${profileKey}/currentDay`] = newCurrentDay;
 
 

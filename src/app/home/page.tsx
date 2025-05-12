@@ -2,7 +2,7 @@
 import { Card } from "@/components/Card/Card";
 import styles from "./page.module.css"
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SecondaryProfileID } from "../../../public/data/adminData";
 import SkipDayModal from "@/components/SkipDayModal/Modal";
 import { Routine } from "../../../public/types";
@@ -11,6 +11,8 @@ import { checkIfSignedIn } from "../actions";
 import { getCurrentProfile, getCurrentRoutine, updateCurrentDay } from "../firebase/database";
 import isAdminUser from "../helpers/isAdminUser";
 import { EmptyProfile, getValidProfile } from "../helpers/ProfileHelper";
+import LoadingModal from "@/components/Loading/loadingModal";
+import { GlobalContext } from "../context/tabsState";
 
 
 export default function Home() {
@@ -25,9 +27,12 @@ export default function Home() {
     const [routineSec, setRoutineSec] = useState<Routine>();
     const [currentDayIndexSec, setCurrentDayIndexSec] = useState<number | undefined>(0);
 
+    const [loadingQ, setLoadingQ] = useState<Array<number>>([]);
+
     /* Get next day label */
     useEffect(() => {
         const getNextDayLabel = async () => {
+            console.log("IN NEXT DAY LABEL")
             const sessionProfile = await checkIfSignedIn();
             if (sessionProfile) {
                 setName(sessionProfile.name)
@@ -45,7 +50,7 @@ export default function Home() {
                 const routineSec = await getCurrentRoutine(routineSecID);
 
                 const currentDayName = routine.days[currentProfile.currentDay].name;
-                const currentDaySecondary = routineSec?.days[currentDayIndexSecondary].name;
+                const currentDaySecondary = routineSec?.days[currentDayIndexSecondary]?.name;
 
                 setRoutine(routine);
                 setCurrentDayIndex(currentProfile.currentDay);
@@ -55,8 +60,29 @@ export default function Home() {
                 setNextDaySec(currentDaySecondary)
             };
         }
-        getNextDayLabel().then().catch(e => {
+        setLoadingQ(q => {
+            const updated = [...q];
+            updated.push(1)
+            return updated;
+        })
+        setLoading(true);
+
+        getNextDayLabel().then(() => {
+            setTimeout(() => {
+                if (loadingQ.length <= 1) {
+                    setLoading(false);
+                }
+                setLoadingQ(q => {
+                    const updated = [...q];
+                    updated.pop()
+                    return updated;
+                })
+            }, 1000);
+
+
+        }).catch(e => {
             console.error(e);
+            setLoading(false);
             setNextDay("N/A");
         })
 
@@ -64,36 +90,82 @@ export default function Home() {
     }, [currentDayIndex])
 
 
+    const { setLoading } = useContext(GlobalContext)
+
+
     const router = useRouter();
     const [openSkipDayModal, setOpenSkipDayModal] = useState(false);
-    return (
-        <main className={`main centeredFlex`}>
-            <h1> {`Welcome` + `${name ? `, ${name}` : ''}`} </h1>
-            <Card id={styles.mainButton} className={'mainButton'} clickable disabled={!routine} onClick={() => router.push("/workout")}> Workout  </Card>
-            {routine && <div className={styles.nextWorkoutLabel}>
-                <span onClick={() => setOpenSkipDayModal(true)}> Next: {nextDay} {nextDaySec ? `and ${nextDaySec}` : null}</span>
-            </div>}
-            {routine && <Card className={'mainButton'} clickable onClick={() => router.push("/routines/view")}> My Routine </Card>}
-            <Card className={'mainButton'} clickable onClick={() => router.push("/history")}> History </Card>
-            <Card className={'mainButton'} clickable onClick={() => router.push("/routines/manage")}>  Routines  </Card>
 
-            <SkipDayModal
-                isOpen={openSkipDayModal}
-                currentDay={currentDayIndex}
-                onClose={() => setOpenSkipDayModal(false)}
-                onConfirm={async (nextDay: number, nextDaySec: number | undefined) => {
-                    setOpenSkipDayModal(false);
-                    await updateCurrentDay(nextDay, nextDaySec);
-                    setCurrentDayIndex(nextDay);
-                    setCurrentDayIndexSec(nextDaySec);
+    console.log({ routine })
 
-                }}
-                routine={routine as Routine}
-                routineSecondary={routineSec}
-                currentDaySecondary={currentDayIndexSec}
-            ></SkipDayModal>
+    return (<main className={`main centeredFlex`}>
+        <h1> {`Welcome` + `${name ? `, ${name}` : ''}`} </h1>
+        <Card id={styles.mainButton} className={'mainButton'} clickable disabled={!routine} onClick={() => {
+            setLoadingQ(q => {
+                const updated = [...q];
+                updated.push(1)
+                return updated;
+            })
+            setLoading(true);
+            router.push("/workout")
+        }
+        }> Workout  </Card>
+        {routine && <div className={styles.nextWorkoutLabel}>
+            <span onClick={() => setOpenSkipDayModal(true)}> Next: {nextDay} {nextDaySec ? `and ${nextDaySec}` : null}</span>
+        </div>}
+        {routine && <Card className={'mainButton'} clickable onClick={() => {
+            setLoadingQ(q => {
+                const updated = [...q];
+                updated.push(1)
+                return updated;
+            })
+            setLoading(true);
+            router.push("/routines/view")
+        }
+        }> My Routine </Card>}
+        <Card className={'mainButton'} clickable onClick={() => {
+            setLoadingQ(q => {
+                const updated = [...q];
+                updated.push(1)
+                return updated;
+            })
+            setLoading(true);
+            router.push("/history")
+        }}> History </Card>
+        <Card className={'mainButton'} clickable onClick={() => {
+            setLoadingQ(q => {
+                const updated = [...q];
+                updated.push(1)
+                return updated;
+            })
+            setLoading(true);
+            router.push("/routines/manage")
+        }
+        }>  Routines  </Card>
 
-        </main>
+        <SkipDayModal
+            isOpen={openSkipDayModal}
+            currentDay={currentDayIndex}
+            onClose={() => setOpenSkipDayModal(false)}
+            onConfirm={async (nextDay: number, nextDaySec: number | undefined) => {
+                setLoadingQ(q => {
+                    const updated = [...q];
+                    updated.push(1)
+                    return updated;
+                })
+                setLoading(true);
+                setOpenSkipDayModal(false);
+                await updateCurrentDay(nextDay, nextDaySec);
+                setCurrentDayIndex(nextDay);
+                setCurrentDayIndexSec(nextDaySec);
+            }}
+            routine={routine as Routine}
+            routineSecondary={routineSec}
+            currentDaySecondary={currentDayIndexSec}
+        ></SkipDayModal>
+        <LoadingModal></LoadingModal>
+
+    </main>
 
 
     );

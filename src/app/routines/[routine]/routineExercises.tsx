@@ -27,8 +27,6 @@ export default function RoutineExercises({ routine, routineId, exercises, exerci
             }
             return updatedRoutine;
         })
-
-
     }
 
     return <main className="main centeredFlex">
@@ -37,10 +35,10 @@ export default function RoutineExercises({ routine, routineId, exercises, exerci
             <DayCard
                 key={i}
                 day={day}
-                availableExercises={ exercisesPerMuscle.filter( (exerciseList: ExercisesPerMuscle) => day.group.includes(exerciseList.id) )
-                    .reduce( (availableExerciseList: Array<number>, muscleGroup: ExercisesPerMuscle) => { 
+                availableExercises={exercisesPerMuscle.filter((exerciseList: ExercisesPerMuscle) => day.group.includes(exerciseList.id))
+                    .reduce((availableExerciseList: Array<number>, muscleGroup: ExercisesPerMuscle) => {
                         return availableExerciseList.concat(muscleGroup.exercises)
-                     }, [] )
+                    }, [])
                 }
                 setExercises={(exercises: Array<number>) => setExercises(exercises, i)}
                 exercises={exercises}

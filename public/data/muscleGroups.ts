@@ -17,10 +17,11 @@ export const muscleGroups = [
 
 const chestExercises = [
     { name: "Bench press", id: 0 },
-    { name: "Incline bench press", id: 1 },
+    { name: "Inclined bench press", id: 1 },
     { name: "Fly / Pec dec", id: 2 },
     { name: "Chest press machine", id: 3 },
-    { name: "Dumbell press", id: 38 }
+    { name: "Dumbell press", id: 38 },
+    { name: "Inclined press", id: 46 },
 ]
 
 const backExercises = [
@@ -72,8 +73,8 @@ const legsExercises = [
     { name: "Knee extension", id: 20 },
     { name: "Knee flexion", id: 21 },
     { name: "Calf raises", id: 22 },
-    { name: "Hip Abduction", id: 31 },
-    { name: "Hip Adduction", id: 32 },
+    { name: "Good Girl", id: 31 },
+    { name: "Bad Girl", id: 32 },
     { name: "Kickbacks", id: 44 },
     { name: "Lunges", id: 45 },
 ]

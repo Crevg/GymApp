@@ -3,14 +3,14 @@
 import { auth, provider } from "./firebase/firebase";
 import { browserPopupRedirectResolver, getAdditionalUserInfo, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from "firebase/auth";
 import Home from "./home/page";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { checkIfSignedIn, login } from "./actions";
 import { getCurrentProfile, newProfile } from "./firebase/database";
+import { GlobalContext, GlobalContextProvider } from "./context/tabsState";
 
 
 
 export default function Index() {
-
 
   useEffect(() => {
     const checkForSignedIn = async () => {
@@ -24,7 +24,8 @@ export default function Index() {
     checkForSignedIn().then();
   }, []);
 
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [loggedIn, setLoggedIn] = useState<boolean>(true);
+
 
 
   const signInSession = async (token: string, name: string, id: string) => {
@@ -44,8 +45,12 @@ export default function Index() {
     }
   }
 
-  return <>
-    {loggedIn ? <Home></Home> :
+  const { loading } = useContext(GlobalContext)
+  console.log({ loading })
+
+  return <GlobalContextProvider>
+    {loggedIn && <Home></Home>}
+    {!loggedIn && !loading ?
       <main className="centeredFlex main">
         <h1> Welcome </h1>
         <button className="googleLoginButton" onClick={() => {
@@ -60,9 +65,10 @@ export default function Index() {
             })
             .catch(e => setLoggedIn(false))
         }}> Sign in with Google </button >
-      </main>}
 
-  </>
+      </main> : null
+    }
+  </GlobalContextProvider>
 
 
 }

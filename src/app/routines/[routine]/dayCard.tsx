@@ -49,7 +49,7 @@ export default function DayCard({ day, setExercises, availableExercises, exercis
 
         {day.exercises.length === 0 && 'There are currently no exercises.'}
         {day.exercises.map((exercise, i) =>
-            <div className={ !readonly  ? styles.exerciseInputContainer : ''}
+            <div className={!readonly ? styles.exerciseInputContainer : ''}
                 key={`${exercise}-${i}`}>
 
                 {!readonly && <select
@@ -62,7 +62,7 @@ export default function DayCard({ day, setExercises, availableExercises, exercis
                 }
 
 
-                {!readonly && <FontAwesomeIcon cursor={'pointer'} color="#880808" icon={faTrash} onClick={() => deleteExercise(i)}></FontAwesomeIcon> }
+                {!readonly && <FontAwesomeIcon cursor={'pointer'} color="#880808" icon={faTrash} onClick={() => deleteExercise(i)}></FontAwesomeIcon>}
                 {readonly && <p> {exercises.find(exe => exe.id === exercise)?.name ?? 'No name'} </p>}
 
             </div>)}

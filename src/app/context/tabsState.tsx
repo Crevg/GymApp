@@ -1,24 +1,27 @@
 "use client"
 import { createContext, useContext, useState } from "react";
 
-export const ActiveTabContext = createContext({
+export const GlobalContext = createContext({
   needTabs: true,
   setNeedTabs: (needTabs: boolean) => {},
   activeTab: 1,
-  setActiveTab: (activeTab: number) => {}
+  setActiveTab: (activeTab: number) => {},
+  loading: false,
+  setLoading: (loading: boolean) => {}
 })
 
-export function useActiveTabContext() {
-  return useContext(ActiveTabContext)
+export function useGlobalContext() {
+  return useContext(GlobalContext)
 }
 
-export function ActiveTabContextProvider({
+export function GlobalContextProvider({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [needTabs, setNeedTabs] = useState(false);
 
-  return <ActiveTabContext.Provider value={{ activeTab, setActiveTab, needTabs, setNeedTabs }}> {children} </ActiveTabContext.Provider>
+  return <GlobalContext.Provider value={{ activeTab, setActiveTab, needTabs, setNeedTabs, loading, setLoading }}> {children} </GlobalContext.Provider>
 }

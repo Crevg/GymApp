@@ -4,6 +4,7 @@ import "./globals.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { BackButton } from "@/components/BackButton/BackButton";
+import LoadingModal from "@/components/Loading/loadingModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
         {children}
         <BackButton></BackButton>
       </body>
+     
     </html>
   );
 }
