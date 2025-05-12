@@ -20,12 +20,14 @@ const chestExercises = [
     { name: "Incline bench press", id: 1 },
     { name: "Fly / Pec dec", id: 2 },
     { name: "Chest press machine", id: 3 },
+    { name: "Dumbell press", id: 38 }
 ]
 
 const backExercises = [
     { name: "Pull ups", id: 4 },
     { name: "Pull downs", id: 5 },
     { name: "Chest supported row", id: 6 },
+    { name: "Single arm row", id: 39 },
     { name: "Pull overs", id: 7 },
     { name: "Reverse Fly", id: 10 },
     { name: "Lat prayers", id: 24 },
@@ -34,6 +36,7 @@ const backExercises = [
 const shoulderExercises = [
     { name: "Lateral Raises", id: 8 },
     { name: "Shoulder Press", id: 9 },
+    { name: "Upright Rows", id: 40 },
 ]
 
 const tricepsExercises = [
@@ -46,11 +49,12 @@ const tricepsExercises = [
 const bicepsExercises = [
     { name: "Ez bar curls", id: 13 },
     { name: "Incline curls", id: 14 },
+    { name: "Preacher curls", id: 42 },
+    { name: "Dumbell curls", id: 43 },
     { name: "Underhand pull downs", id: 15 },
     { name: "Hammer curls", id: 35 },
     { name: "Shrugs", id: 36 },
     { name: "Reverse curls", id: 37 },
-
 ]
 
 const legsExercises = [
@@ -58,29 +62,29 @@ const legsExercises = [
     { name: "Hack squat", id: 17 },
     { name: "Sumo squat", id: 33 },
     { name: "Deadlift", id: 26 },
-    { name: "RDL", id: 30},
-    { name: "Deficit Deadlift", id: 28},
+    { name: "Sumo deadlift", id: 41 },
+    { name: "RDL", id: 30 },
+    { name: "Deficit Deadlift", id: 28 },
     { name: "Back elevated lunges", id: 18 },
-    { name: "Front elevated lunges", id: 29},
-    { name: "Leg Press", id: 34},
+    { name: "Front elevated lunges", id: 29 },
+    { name: "Leg Press", id: 34 },
     { name: "Hip thrust", id: 19 },
     { name: "Knee extension", id: 20 },
     { name: "Knee flexion", id: 21 },
     { name: "Calf raises", id: 22 },
-    { name: "Abduction", id: 31},
-    { name: "Adduction", id: 32},
-
-
-
+    { name: "Hip Abduction", id: 31 },
+    { name: "Hip Adduction", id: 32 },
+    { name: "Kickbacks", id: 44 },
+    { name: "Lunges", id: 45 },
 ]
 
 export const exercises = chestExercises.concat(backExercises, shoulderExercises, tricepsExercises, bicepsExercises, legsExercises);
 
 export const exercisesPerMuscle = [
-    { id: CHEST_ID, exercises: chestExercises.map( ex => ex.id) },
-    { id: BACK_ID, exercises: backExercises.map( ex => ex.id)}, 
-    { id: SHOULDERS_ID, exercises: shoulderExercises.map( ex => ex.id)},
-    { id: TRICEPS_ID, exercises:tricepsExercises.map( ex => ex.id)},
-    { id: BICEPS_ID, exercises: bicepsExercises.map( ex => ex.id)},
-    { id: LEGS_ID, exercises: legsExercises.map( ex => ex.id)}
+    { id: CHEST_ID, exercises: chestExercises.map(ex => ex.id) },
+    { id: BACK_ID, exercises: backExercises.map(ex => ex.id) },
+    { id: SHOULDERS_ID, exercises: shoulderExercises.map(ex => ex.id) },
+    { id: TRICEPS_ID, exercises: tricepsExercises.map(ex => ex.id) },
+    { id: BICEPS_ID, exercises: bicepsExercises.map(ex => ex.id) },
+    { id: LEGS_ID, exercises: legsExercises.map(ex => ex.id) }
 ]
